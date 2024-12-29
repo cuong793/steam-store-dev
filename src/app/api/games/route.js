@@ -7,13 +7,13 @@ const cache = new NodeCache({ stdTTL: 300 }); // Cache sẽ hết hạn sau 300 
 
 export const GET = React.cache(async () => {
   try {
-    console.log('GET games');
-
     const cachedData = cache.get('gamesData');
+
     if (cachedData) {
-      console.log('Serving from cache');
       return NextResponse.json(cachedData);
     }
+
+    console.log('Fetching game data');
 
     const resp = await axios.get(
       `https://api.lzt.market/steam/games`,
@@ -26,10 +26,10 @@ export const GET = React.cache(async () => {
     );
 
     cache.set('gamesData', resp?.data);
-
     return NextResponse.json(resp?.data);
+
   } catch (err) {
-    console.error(err);
-    throw new Error('Error fetching games data');
+    console.log('Error when fetching game data', err);
+    return NextResponse.json({});
   }
 });

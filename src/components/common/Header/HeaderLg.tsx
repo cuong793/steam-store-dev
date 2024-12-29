@@ -1,10 +1,10 @@
-import CategoryNavbar from '@/components/category/Navbar';
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
+import Link from 'next/link';
 import { IoChatbubbleSharp } from 'react-icons/io5';
-import { MdOutlineNavigateBefore } from 'react-icons/md';
-
 
 function HeaderLg() {
   return (
@@ -19,25 +19,20 @@ function HeaderLg() {
         </div>
         <div></div>
       </div>
-      <div className='flex justify-between items-center h-11 pl-[10vw] pr-[16vw] bg-secondaryCustoms'>
-        <div className='flex items-center gap-2'>
-          <Button size={'sm'} variant='secondary'>
-            <p className='flex items-center gap-1'>
-              <span>
-                <MdOutlineNavigateBefore />
-              </span>
-              <span>To the forum</span>
-            </p>
-          </Button>
-          <Image src='logo.svg' alt='logo' width={120} height={120} />
-          <CategoryNavbar />
-        </div>
-        <div className='flex items-center gap-2'>
-          <Input size={28} placeholder='Search...' />
-          <Button size={'sm'}>Login</Button>
-          <Button size={'sm'} variant='link'>
-            Sign up
-          </Button>
+      <div className='flex items-center  justify-center bg-secondaryCustoms'>
+        <div className='flex justify-between items-center h-11 w-full p-4 max-w-full lg:max-w-[800px]'>
+          <div className='flex items-center gap-2'>
+            <Link href='/'>
+              <Image src='logo.svg' alt='logo' width={120} height={120} />
+            </Link>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Input size={28} placeholder='Search...' />
+            <Button size={'sm'}>Login</Button>
+            <Button size={'sm'} variant='link'>
+              Sign up
+            </Button>
+          </div>
         </div>
       </div>
     </div>

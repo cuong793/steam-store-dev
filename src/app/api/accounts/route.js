@@ -20,6 +20,7 @@ export const GET = React.cache(async (request) => {
         }
       }
     );
+
     return NextResponse.json(resp?.data);
   } catch (err) {
     console.error(err);

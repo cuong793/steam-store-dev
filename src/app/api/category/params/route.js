@@ -1,17 +1,33 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
+import NodeCache from 'node-cache';
+import React from 'react';
 
-export const GET = async () => {
+const cache = new NodeCache({ stdTTL: 300 }); // Cache sẽ hết hạn sau 300 giây (5 phút)
+
+export const GET = React.cache(async () => {
   try {
-    const resp = await axios.get(`https://api.lzt.market/steam/params`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.TOKEN}`
+    const cachedData = cache.get('paramsData');
+    if (cachedData) {
+      return NextResponse.json(cachedData);
+    }
+
+    console.log('Fetching params data');
+
+    const resp = await axios.get(
+      `https://api.lzt.market/steam/params`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.TOKEN}`
+        }
       }
-    });
-    return NextResponse.json(resp.data);
+    );
+
+    cache.set('paramsData', resp?.data);
+    return NextResponse.json(resp?.data);
   } catch (err) {
-    console.log('Error', err);
-    throw new Error('Failed to fetch params!');
+    console.log('Error when fetching params data', err);
+    return NextResponse.json({});
   }
-};
+});
